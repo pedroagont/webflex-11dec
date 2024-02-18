@@ -105,7 +105,9 @@ $(document).ready(() => {
   // newNoteForm.on('submit', handleNewNoteFormSubmit);
   newNoteForm.submit(handleNewNoteFormSubmit);
 
-  $(window).on('resize', () => {
+  const handleWindowResize = () => {
     console.log('resizing!');
-  });
+  };
+
+  $(window).on('resize', handleWindowResize);
 });
