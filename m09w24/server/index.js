@@ -5,9 +5,13 @@ const { Server } = require('socket.io');
 
 // SETUP
 const app = express();
-const port = 3000;
+const port = 8080;
 const server = http.createServer(app);
-const io = new Server(server);
+const io = new Server(server, {
+  cors: {
+    origin: '*',
+  },
+});
 
 // MIDDLEWARE
 app.use((req, res, next) => {
@@ -23,9 +27,19 @@ app.get('/', (req, res) => {
 // SOCKET
 io.on('connection', (socket) => {
   console.log('a user connected');
+
+  socket.on('ping', () => {
+    console.log('ping');
+    socket.emit('pong')
+  });
+
+  socket.on('data', (data) => {
+    console.log('receiving data:', data);
+    // write data in db
+  });
 });
 
 // LISTENER
-app.listen(port, () => {
+server.listen(port, () => {
   console.log(`Example app listening on port ${port}`);
 });

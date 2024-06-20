@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Web Sockets 🔌</title>
+
+    <script
+      src="https://cdn.socket.io/4.7.5/socket.io.min.js"
+      integrity="sha384-2huaZvOR9iDzHqslqwpR87isEmrfxqyWOF7hr7BY6KG0+hVKLoEXMPUJw3ynWuhO"
+      crossorigin="anonymous"
+    ></script>
+  </head>
+  <body>
+    <h1>Web Sockets 🔌</h1>
+    <button id="ping">Start sending</button>
+
+    <script>
+      let sendingData = false;
+      const socket = io('ws://localhost:8080');
+      const pingButton = document.getElementById('ping');
+
+      socket.on('pong', () => {
+        console.log('pong');
+      });
+
+      const handleMouseMove = (e) => {
+        console.log('mousepos', e.clientX, e.clientY);
+        socket.emit('data', { x: e.clientX, y: e.clientY });
+      };
+
+      pingButton.addEventListener('click', (e) => {
+        if (!sendingData) {
+          e.target.innerHTML = 'Stop sending';
+          sendingData = true;
+          document.addEventListener('mousemove', handleMouseMove);
+        } else {
+          e.target.innerHTML = 'Start sending';
+          sendingData = false;
+          document.removeEventListener('mousemove', handleMouseMove);
+        }
+      });
+    </script>
+  </body>
+</html>
