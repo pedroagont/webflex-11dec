@@ -13,12 +13,14 @@
   </head>
   <body>
     <h1>Web Sockets 🔌</h1>
-    <button id="ping">Start sending</button>
+    <button id="ping">Ping</button>
+    <button id="data">Start sending</button>
 
     <script>
       let sendingData = false;
       const socket = io('ws://localhost:8080');
       const pingButton = document.getElementById('ping');
+      const dataButton = document.getElementById('data');
 
       socket.on('pong', () => {
         console.log('pong');
@@ -30,6 +32,11 @@
       };
 
       pingButton.addEventListener('click', (e) => {
+        console.log('ping');
+        socket.emit('ping');
+      });
+
+      dataButton.addEventListener('click', (e) => {
         if (!sendingData) {
           e.target.innerHTML = 'Stop sending';
           sendingData = true;

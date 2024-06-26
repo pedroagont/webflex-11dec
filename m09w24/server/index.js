@@ -30,7 +30,7 @@ io.on('connection', (socket) => {
 
   socket.on('ping', () => {
     console.log('ping');
-    socket.emit('pong')
+    socket.emit('pong');
   });
 
   socket.on('data', (data) => {
